@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портал сотрудников — Majestic RP</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Majestic RP</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="page2.html">Гражданский портал</a></li>
+          <li><a href="index.html">Главная</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Auth gate -->
+  <div id="auth-gate" class="container">
+    <section class="auth-gate">
+      <h1 class="page-title" style="font-size: 1.5rem;">Вход для сотрудников</h1>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        Введите ФИО. Система определит игровую роль и роль администрации сайта.
+      </p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="fullName">ФИО *</label>
+          <input type="text" id="fullName" required placeholder="Иван Петров">
+        </div>
+        <div class="form-group">
+          <label for="position">Должность / статус</label>
+          <input type="text" id="position" placeholder="Губернатор, Министр, Адвокат...">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Войти</button>
+        </div>
+      </form>
+      <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">
+        Демо: «Иван Петров» (гл. админ + губернатор), «Сергей Админов» (админ сайта),
+        «Мария Сидорова» (кадровый аудит), «Алексей Козлов» (министр)
+      </p>
+    </section>
+  </div>
+
+  <!-- Staff dashboard -->
+  <div id="staff-dashboard" class="container hidden">
+    <div class="user-badge">
+      <span id="user-name"></span>
+      <span id="user-role" class="role-tag"></span>
+      <button type="button" id="logout-btn" class="btn btn-sm btn-secondary" style="margin-left: auto;">Выйти</button>
+    </div>
+
+    <div class="staff-layout">
+      <aside class="sidebar">
+        <h3>Разделы</h3>
+        <ul class="sidebar-nav" id="sidebar-nav">
+          <li><button type="button" data-section="hierarchy" class="active">Состав правительства</button></li>
+          <li><button type="button" data-section="complaints">Жалобы на сотрудников</button></li>
+          <li><button type="button" data-section="applications">Заявления на трудоустройство</button></li>
+          <li><button type="button" data-section="audit">Кадровый аудит</button></li>
+          <li><button type="button" data-section="logs">Логи</button></li>
+          <li><button type="button" data-section="site_manage">Управление сайтом</button></li>
+        </ul>
+      </aside>
+
+      <div class="main-panel">
+        <section id="section-hierarchy" class="panel-section active">
+          <h2>Состав правительства</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">Иерархия министерств и должностей (игровые роли).</p>
+          <div id="hierarchy-container" class="hierarchy-tree"></div>
+        </section>
+
+        <section id="section-complaints" class="panel-section">
+          <h2>Жалобы на сотрудников</h2>
+          <div id="complaints-table" class="data-table-wrap"></div>
+        </section>
+
+        <section id="section-applications" class="panel-section">
+          <h2>Заявления на трудоустройство</h2>
+          <div id="applications-table" class="data-table-wrap"></div>
+        </section>
+
+        <section id="section-audit" class="panel-section">
+          <h2>Кадровый аудит</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">Назначение и изменение ролей внутри министерств.</p>
+          <form id="audit-form" class="audit-form">
+            <div class="form-group">
+              <label for="audit_user">ФИО сотрудника</label>
+              <input type="text" id="audit_user" required>
+            </div>
+            <div class="form-group">
+              <label for="audit_role">Должность / роль</label>
+              <select id="audit_role" required></select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Назначить роль</button>
+          </form>
+          <div id="audit-result"></div>
+        </section>
+
+        <section id="section-logs" class="panel-section">
+          <h2>Логи системы</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">Доступно администрации сайта.</p>
+          <div id="logs-list"></div>
+        </section>
+
+        <section id="section-site_manage" class="panel-section">
+          <h2>Управление сайтом</h2>
+          <p style="color: var(--text-muted); margin-bottom: 1rem;">Только для главного администратора. Изменения сохраняются без редактирования кода.</p>
+
+          <div class="site-manage-tabs" id="site-manage-tabs">
+            <button type="button" class="tab-btn active" data-tab="hierarchy">Состав правительства</button>
+            <button type="button" class="tab-btn" data-tab="app_statuses">Статусы заявлений</button>
+            <button type="button" class="tab-btn" data-tab="complaint_statuses">Статусы жалоб</button>
+          </div>
+
+          <div data-tab-panel="hierarchy" class="tab-panel">
+            <div id="hierarchy-editor" class="editor-list"></div>
+            <form id="add-ministry-form" class="editor-add-form">
+              <input type="text" name="name" placeholder="Название нового министерства" required>
+              <button type="submit" class="btn btn-sm btn-secondary">+ Министерство</button>
+            </form>
+            <button type="button" id="save-hierarchy-btn" class="btn btn-primary btn-sm">Сохранить состав</button>
+          </div>
+
+          <div data-tab-panel="app_statuses" class="tab-panel hidden">
+            <p class="editor-hint">Статусы для заявлений на трудоустройство. Игроки смогут назначать их при обработке.</p>
+            <div id="app-status-list" class="editor-list"></div>
+            <form id="add-app-status-form" class="editor-add-form">
+              <input type="text" name="id" placeholder="id (латиница)" required>
+              <input type="text" name="label" placeholder="Название статуса" required>
+              <button type="submit" class="btn btn-sm btn-secondary">+ Статус</button>
+            </form>
+            <button type="button" id="save-app-statuses-btn" class="btn btn-primary btn-sm">Сохранить статусы</button>
+          </div>
+
+          <div data-tab-panel="complaint_statuses" class="tab-panel hidden">
+            <p class="editor-hint">Статусы для жалоб. «В работу» и «Закрыть» привязаны к id <code>in_progress</code> и <code>closed</code>.</p>
+            <div id="complaint-status-list" class="editor-list"></div>
+            <form id="add-complaint-status-form" class="editor-add-form">
+              <input type="text" name="id" placeholder="id (латиница)" required>
+              <input type="text" name="label" placeholder="Название статуса" required>
+              <input type="text" name="actionLabel" placeholder="Текст кнопки">
+              <button type="submit" class="btn btn-sm btn-secondary">+ Статус</button>
+            </form>
+            <button type="button" id="save-complaint-statuses-btn" class="btn btn-primary btn-sm">Сохранить статусы</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/hierarchy.js"></script>
+  <script src="js/site-admin.js"></script>
+  <script src="js/staff-page.js"></script>
+</body>
+</html>

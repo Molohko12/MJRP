@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Гражданский портал — Majestic RP</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Majestic RP</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="page3.html">Для сотрудников</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Гражданский портал</h1>
+    <p style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+      Выберите нужный раздел для получения информации или подачи обращения.
+    </p>
+
+    <div class="cards-grid">
+      <article class="card" onclick="location.href='page3.html'">
+        <div class="card-icon">🏛️</div>
+        <h3>Состав правительства</h3>
+        <p>Иерархия министерств, должностей и структура правительства штата</p>
+      </article>
+
+      <article class="card" onclick="location.href='application-form.html'">
+        <div class="card-icon">📋</div>
+        <h3>Заявление на трудоустройство</h3>
+        <p>Подайте заявление на желаемую должность в органах власти</p>
+      </article>
+
+      <article class="card" onclick="location.href='complaint-form.html'">
+        <div class="card-icon">⚖️</div>
+        <h3>Жалоба на сотрудника</h3>
+        <p>Сообщите о нарушении со стороны государственного служащего</p>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

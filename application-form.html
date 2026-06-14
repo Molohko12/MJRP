@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заявление на трудоустройство — Majestic RP</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Majestic RP</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="page2.html">← Назад</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="form-section">
+      <h1 class="page-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">Заявление на трудоустройство</h1>
+      <form id="application-form">
+        <div class="form-group">
+          <label for="applicant_name">ФИО заявителя *</label>
+          <input type="text" id="applicant_name" name="applicant_name" required placeholder="Иванов Иван Иванович">
+        </div>
+        <div class="form-group">
+          <label for="position">Желаемая должность *</label>
+          <input type="text" id="position" name="position" required placeholder="Например: Секретарь суда">
+        </div>
+        <div class="form-group">
+          <label for="experience">Опыт работы (лет) *</label>
+          <input type="number" id="experience" name="experience" required min="0" max="50" placeholder="3">
+        </div>
+        <div class="form-group">
+          <label for="notes">Причина подачи заявления *</label>
+          <textarea id="notes" name="notes" required placeholder="Кратко опишите мотивацию"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="contact">Контакт *</label>
+          <input type="text" id="contact" name="contact" required placeholder="Телефон или Discord">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Отправить заявление</button>
+          <a href="page2.html" class="btn btn-secondary">Отмена</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById("application-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        applicant_name: form.applicant_name.value.trim(),
+        position: form.position.value.trim(),
+        experience: form.experience.value.trim(),
+        contact: form.contact.value.trim(),
+        notes: form.notes.value.trim(),
+      };
+
+      try {
+        await API.createApplication(data);
+        showToast("Заявление успешно отправлено на сервер", "success");
+        form.reset();
+        setTimeout(() => (location.href = "page2.html"), 1500);
+      } catch (err) {
+        showToast("Ошибка отправки: " + err.message, "error");
+      }
+    });
+  </script>
+</body>
+</html>
